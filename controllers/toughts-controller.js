@@ -1,11 +1,11 @@
-const { Thought } = require('../models');
+const { Thought, User } = require('../models');
 
 const thoughtController = {
 
     //get all thoughts
     getAllthoughts(req,res){
         Thought.find({})
-        .then(dbUserData => res.json(dbUserData))
+        .then(dbUserData => res.json(dbThoughtData))
         .catch(err =>{
             console.log(err);
             res.sendStatus(400);      
@@ -14,34 +14,48 @@ const thoughtController = {
 //get a thought by its id
     getThoughtById({ params }, res){
         Thought.findOne({_id: params.id})
-        .then(dbUserData => res.json(dbUserData))
+        .then(dbThoughtData => res.json(dbThoughtData))
         .catch(err =>{
             console.log(err)
             res.sendStatus(400)
         })
     },
     //create a thought
-    createThought({body}, res){
+    createThought({ params, body }, res) {
+        console.log(body);
         Thought.create(body)
-        .then(dbUserData => res.json(dbUserData))
-        .catch(err => res.json(err));
-    },
+          .then(({ _id }) => {
+            return User.findOneAndUpdate(
+              { _id: params.pizzaId },
+              { $push: { thoughts: _id } },
+              { new: true }
+            );
+          })
+          .then(dbThoughtData => {
+            if (!dbThoughtData) {
+              res.status(404).json({ message: 'No thought found with this id!' });
+              return;
+            }
+            res.json(dbThoughtData);
+          })
+          .catch(err => res.json(err));
+      },
     //find a thought and update it
     updateThought({params, body}, res){
         Thought.findOneAndUpdate({ _id: params.id }, body, { new: true })
-        .then(dbUserData =>{
-            if(!dbUserData){
+        .then(dbThoughtData =>{
+            if(!dbThoughtData){
             res.status(404).json({ message: 'No pizza found with this id!' });
             return;
             }
-            res.json(dbUserData);
+            res.json(dbThoughtData);
         })
         .catch(err => res.json(err))
     },
     //find a thought and delete it
     deleteThought({params}, res) {
        Thought.findOneAndDelete({_id:params.id})
-        .then(dbPizzaData => res.json(dbPizzaData))
+        .then(dbThoughtData => res.json(dbThoughtData))
         .catch(err => res.json(err));
     }
 }
