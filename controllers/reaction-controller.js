@@ -21,22 +21,32 @@ const reactionController = {
           })
           .catch(err => res.json(err));
       },
-      removeReaction({ params }, res) {
+    //   removeReaction({ params }, res) {
+    //     Reaction.findOneAndDelete({ _id: params.reactionId })
+    //       .then(deletedReaction => {
+    //         if (!deletedReaction) {
+    //           return res.status(404).json({ message: 'No reaction with this id!' });
+    //         }
+    //         return Thought.findOneAndUpdate(
+    //           { _id: params.reactionId },
+    //           { $pull: { reactions: params.reactionId } },
+    //           { new: true }
+    //         );
+    //       })
+    //       .then(dbPizzaData => {
+    //         if (!dbPizzaData) {
+    //           res.status(404).json({ message: 'No pizza found with this id!' });
+    //           return;
+    //         }
+    //         res.json(dbPizzaData);
+    //       })
+    //       .catch(err => res.json(err));
+    //   }
+    removeReaction({ params }, res) {
         Reaction.findOneAndDelete({ _id: params.reactionId })
           .then(deletedReaction => {
             if (!deletedReaction) {
               return res.status(404).json({ message: 'No reaction with this id!' });
-            }
-            return Thought.findOneAndUpdate(
-              { _id: params.reactionId },
-              { $pull: { reactions: params.reactionId } },
-              { new: true }
-            );
-          })
-          .then(dbPizzaData => {
-            if (!dbPizzaData) {
-              res.status(404).json({ message: 'No pizza found with this id!' });
-              return;
             }
             res.json(dbPizzaData);
           })
