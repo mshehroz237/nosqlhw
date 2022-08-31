@@ -9,7 +9,7 @@ const friendController = {
           .then(({ _id }) => {
             return User.findOneAndUpdate(
               { _id: params._id },
-              { $push: { friends: _id } },
+              { $push: { friends: params.friendId } },
               { new: true }
             );
           })
