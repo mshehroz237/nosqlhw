@@ -16,19 +16,19 @@ const{
 // /api/thoughts
 router
     .route('/')
-    .get()
-    .post();
+    .get(getAllthoughts)
+    .post(createThought);
 
 // /api/thoughts/:id
     router
     .route('/:id')
-    .get()
-    .put()
-    .delete();
+    .get(getThoughtById)
+    .put(updateThought)
+    .delete(deleteThought);
 
 // /api/thoughts/:thoughtId/reactions
 router
-.route(':thoughtId/reactions')
+.route('/:thoughtId/reactions')
     .post(createReaction)
     .delete(removeReaction);
 
