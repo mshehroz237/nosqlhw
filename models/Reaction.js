@@ -1,6 +1,7 @@
 const { Schema, model, Types } = require('mongoose');
+//using date format to display current date
 const dateFormat = require('../utils/dateFormat');
-
+//creating a reaction schema 
 const reactionSchema = new Schema({
     reactionId:{
         type: Schema.Types.ObjectId,

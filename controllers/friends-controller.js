@@ -2,7 +2,7 @@ const { Thought, User} = require('../models');
 
 
 const friendController = {
-
+//creating a frined and then updating it in User by getting userid and then pushing it in the friend Array
     createFriend({ params, body }, res) {
              User.findOneAndUpdate(
               { _id: params.userId},
@@ -21,6 +21,7 @@ const friendController = {
             console.log(dbFriendData)
             res.json(err)});
       },
+      //Getting the userId and then oulling the frind from friends Array suing the friendId
       removeFriend({ params }, res) {
             User.findOneAndDelete(
               { _id: params.userId },
