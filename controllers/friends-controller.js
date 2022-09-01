@@ -25,7 +25,7 @@ const friendController = {
       removeFriend({ params }, res) {
             User.findOneAndDelete(
               { _id: params.userId },
-              { $pull: { friends: params.friendId } },
+              { $pull: { friends:{friendId: params.friendId} } },
               { new: true }
             )
           .then(dbFriendData => {
